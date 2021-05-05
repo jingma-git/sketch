@@ -432,6 +432,10 @@ void ProjectViews::bindBuffers()
 
     vector<unsigned short> imgBuffer(mHeight * mWidth * 4);
     glReadPixels(0, 0, mWidth, mHeight, GL_RGBA, GL_UNSIGNED_SHORT, &imgBuffer.front());
+    float depth;
+    // Qt uses upper corner for its origin while GL uses the lower corner.
+    glReadPixels(mWidth / 2, mHeight / 2, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
+    cout << __FILE__ << " " << __LINE__ << " center depth=" << depth << endl;
     glCheckError();
 
     ImageTransform::flipVertical(imgBuffer, imgBuffer, mWidth, mHeight, 4);
